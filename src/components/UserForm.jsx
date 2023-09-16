@@ -6,6 +6,7 @@ export const UserForm = ({
   handlerAddUser,
   initialUsersForm,
   userSelected,
+  handlerCloseForm,
 }) => {
   const [userForm, setUserForm] = useState(initialUsersForm);
 
@@ -44,6 +45,10 @@ export const UserForm = ({
     setUserForm(initialUsersForm);
   };
 
+  const onCloseForm = () => {
+    handlerCloseForm(), setUserForm(initialUsersForm);
+  };
+
   return (
     <form onSubmit={onSubmit}>
       <input
@@ -75,6 +80,13 @@ export const UserForm = ({
       <button className="btn btn-primary" type="submit">
         {id > 0 ? 'editar' : 'crear'}
       </button>
+      <button
+        className="btn btn-primary mx-2"
+        type="button"
+        onClick={onCloseForm}
+      >
+        Cerrar
+      </button>
     </form>
   );
 };
@@ -83,4 +95,5 @@ UserForm.propTypes = {
   handlerAddUser: PropTypes.func,
   initialUsersForm: PropTypes.object,
   userSelected: PropTypes.object,
+  handlerCloseForm: PropTypes.func,
 };
