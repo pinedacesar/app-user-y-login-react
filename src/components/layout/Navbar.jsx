@@ -50,6 +50,6 @@ export const Navbar = ({ login, handlerLogout }) => {
 };
 
 Navbar.propTypes = {
-  login: PropTypes.object,
-  handlerLogout: PropTypes.func,
+  login: PropTypes.object.isRequired,
+  handlerLogout: PropTypes.func.isRequired,
 };

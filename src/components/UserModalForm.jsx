@@ -1,12 +1,10 @@
-import { PropTypes } from 'prop-types';
 import { UserForm } from './UserForm';
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
-export const UserModalForm = ({
-  handlerAddUser,
-  initialUsersForm,
-  userSelected,
-  handlerCloseForm,
-}) => {
+export const UserModalForm = () => {
+  const { userSelected, handlerCloseForm } = useContext(UserContext);
+
   return (
     <div className="abrir-modal animacion fadeIn">
       <div className="modal" style={{ display: 'block' }} tabIndex="-1">
@@ -19,8 +17,6 @@ export const UserModalForm = ({
             </div>
             <div className="modal-body">
               <UserForm
-                handlerAddUser={handlerAddUser}
-                initialUsersForm={initialUsersForm}
                 userSelected={userSelected}
                 handlerCloseForm={handlerCloseForm}
               />
@@ -30,11 +26,4 @@ export const UserModalForm = ({
       </div>
     </div>
   );
-};
-
-UserModalForm.propTypes = {
-  handlerAddUser: PropTypes.func,
-  initialUsersForm: PropTypes.object,
-  userSelected: PropTypes.object,
-  handlerCloseForm: PropTypes.func,
 };

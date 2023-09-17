@@ -1,13 +1,10 @@
-import { PropTypes } from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserForm } from '../components/UserForm';
 import { useParams } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
-export const RegisterPage = ({
-  users = [],
-  handlerAddUser,
-  initialUsersForm,
-}) => {
+export const RegisterPage = () => {
+  const { users = [], initialUsersForm } = useContext(UserContext);
   const [userSelected, setUserSelected] = useState(initialUsersForm);
 
   const { id } = useParams();
@@ -24,19 +21,9 @@ export const RegisterPage = ({
       <h4>{userSelected.id > 0 ? 'Editar' : 'Registrar'} Usuario</h4>
       <div className="row">
         <div className="col">
-          <UserForm
-            userSelected={userSelected}
-            handlerAddUser={handlerAddUser}
-            initialUsersForm={initialUsersForm}
-          />
+          <UserForm userSelected={userSelected} />
         </div>
       </div>
     </div>
   );
-};
-
-RegisterPage.propTypes = {
-  handlerAddUser: PropTypes.func.isRequired,
-  initialUsersForm: PropTypes.object.isRequired,
-  users: PropTypes.array,
 };
