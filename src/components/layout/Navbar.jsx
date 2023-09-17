@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 export const Navbar = ({ login, handlerLogout }) => {
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
           UsersApp
@@ -24,6 +24,11 @@ export const Navbar = ({ login, handlerLogout }) => {
             <li className="nav-item">
               <NavLink className="nav-link" to="/users">
                 Usuarios
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/users/register">
+                Registrar Usuario
               </NavLink>
             </li>
           </ul>

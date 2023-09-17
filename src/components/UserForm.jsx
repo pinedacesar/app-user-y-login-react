@@ -38,6 +38,15 @@ export const UserForm = ({
       return;
     }
 
+    if (!(email.includes('@') && email.includes('.'))) {
+      Swal.fire(
+        'Error de validación email',
+        'El email debe ser valido, incluir un @ y un .xx!',
+        'error'
+      );
+      return;
+    }
+
     // Guardar el userForm en el estado de usuario
     handlerAddUser(userForm);
     setUserForm(initialUsersForm);
@@ -78,20 +87,22 @@ export const UserForm = ({
       <button className="btn btn-primary" type="submit">
         {id > 0 ? 'editar' : 'crear'}
       </button>
-      <button
-        className="btn btn-primary mx-2"
-        type="button"
-        onClick={onCloseForm}
-      >
-        Cerrar
-      </button>
+      {!handlerCloseForm || (
+        <button
+          className="btn btn-primary mx-2"
+          type="button"
+          onClick={onCloseForm}
+        >
+          Cerrar
+        </button>
+      )}
     </form>
   );
 };
 
 UserForm.propTypes = {
-  handlerAddUser: PropTypes.func,
-  initialUsersForm: PropTypes.object,
-  userSelected: PropTypes.object,
+  handlerAddUser: PropTypes.func.isRequired,
+  initialUsersForm: PropTypes.object.isRequired,
+  userSelected: PropTypes.object.isRequired,
   handlerCloseForm: PropTypes.func,
 };

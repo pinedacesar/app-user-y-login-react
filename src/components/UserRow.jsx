@@ -1,4 +1,5 @@
 import { PropTypes } from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 export const UserRow = ({
   id,
@@ -28,6 +29,11 @@ export const UserRow = ({
         </button>
       </td>
       <td>
+        <NavLink className="btn btn-secondary btn-sm" to={'/users/edit/' + id}>
+          update route
+        </NavLink>
+      </td>
+      <td>
         <button
           type="button"
           className="btn btn-danger btn-sm"
@@ -44,5 +50,5 @@ UserRow.propTypes = {
   username: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   handlerRemoveUser: PropTypes.func.isRequired,
-  handlerUserSelectedForm: PropTypes.func,
+  handlerUserSelectedForm: PropTypes.func.isRequired,
 };

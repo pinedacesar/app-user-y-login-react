@@ -1,20 +1,18 @@
+import { PropTypes } from 'prop-types';
 import { UserModalForm } from '../components/UserModalForm';
 import { UsersList } from '../components/UsersList';
-import { useUsers } from '../hooks/useUsers';
 
-export const UsersPages = () => {
-  const {
-    users,
-    userSelected,
-    initialUsersForm,
-    visibleForm,
-    handlerAddUser,
-    handlerRemoveUser,
-    handlerUserSelectedForm,
-    handlerOpenForm,
-    handlerCloseForm,
-  } = useUsers();
-
+export const UsersPages = ({
+  users,
+  userSelected,
+  initialUsersForm,
+  visibleForm,
+  handlerAddUser,
+  handlerRemoveUser,
+  handlerUserSelectedForm,
+  handlerOpenForm,
+  handlerCloseForm,
+}) => {
   return (
     <>
       {!visibleForm || (
@@ -49,4 +47,16 @@ export const UsersPages = () => {
       </div>{' '}
     </>
   );
+};
+
+UsersPages.propTypes = {
+  users: PropTypes.array.isRequired,
+  userSelected: PropTypes.object.isRequired,
+  initialUsersForm: PropTypes.object.isRequired,
+  visibleForm: PropTypes.bool.isRequired,
+  handlerAddUser: PropTypes.func.isRequired,
+  handlerRemoveUser: PropTypes.func.isRequired,
+  handlerUserSelectedForm: PropTypes.func.isRequired,
+  handlerOpenForm: PropTypes.func.isRequired,
+  handlerCloseForm: PropTypes.func.isRequired,
 };
