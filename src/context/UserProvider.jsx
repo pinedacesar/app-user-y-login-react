@@ -1,3 +1,4 @@
+import { PropTypes } from 'prop-types';
 import { useUsers } from '../hooks/useUsers';
 import { UserContext } from './UserContext';
 
@@ -31,4 +32,8 @@ export const UserProvider = ({ children }) => {
       {children}
     </UserContext.Provider>
   );
+};
+
+UserProvider.propTypes = {
+  children: PropTypes.array.isRequired,
 };
