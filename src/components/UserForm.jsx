@@ -20,7 +20,6 @@ export const UserForm = ({
   }, [userSelected]);
 
   const onInputChange = ({ target }) => {
-    // console.log(target.value);
     const { name, value } = target;
     setUserForm({
       ...userForm,
@@ -38,7 +37,6 @@ export const UserForm = ({
       );
       return;
     }
-    // console.log(userForm);
 
     // Guardar el userForm en el estado de usuario
     handlerAddUser(userForm);

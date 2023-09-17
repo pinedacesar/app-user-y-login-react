@@ -14,3 +14,11 @@ Currently, two official plugins are available:
 ## Se utilizo prop-types
 
 - [npm prop-types](https://www.npmjs.com/package/prop-types)
+
+## Se usa Bootstrap
+
+- [Bootstrap](https://getbootstrap.com/docs/5.3/components/navbar/#nav) para los estilos.
+
+## React Router DOM
+
+- [npm React Router DOM](https://www.npmjs.com/package/react-router-dom)
