@@ -9,7 +9,7 @@ Currently, two official plugins are available:
 
 ## Se utilizo sweetalert2
 
-- ir a [sweetalert2](https://sweetalert2.github.io/)
+- [sweetalert2](https://sweetalert2.github.io/)
 
 ## Se utilizo prop-types
 

@@ -38,7 +38,7 @@ export const UserRow = ({ id, username, email }) => {
           className="btn btn-danger btn-sm"
           onClick={() => handlerRemoveUser(id)}
         >
-          eliminar
+          remove
         </button>
       </td>
     </tr>
