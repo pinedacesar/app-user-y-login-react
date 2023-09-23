@@ -12,10 +12,19 @@ const initialUsersForm = {
   password: '',
   email: '',
 };
+
+const initialErrors = {
+  username: '',
+  password: '',
+  email: '',
+};
+
 export const useUsers = () => {
   const [users, dispatch] = useReducer(usersReducer, initialUsers);
   const [userSelected, setUserSelected] = useState(initialUsersForm);
   const [visibleForm, setVisibleForm] = useState(false);
+
+  const [errors, setErrors] = useState(initialErrors);
   const navigate = useNavigate();
 
   const getUser = async () => {
@@ -28,25 +37,44 @@ export const useUsers = () => {
 
   const handlerAddUser = async (user) => {
     let response;
-    if (user.id === 0) {
-      response = await save(user);
-    } else {
-      response = await update(user);
-    }
+    try {
+      if (user.id === 0) {
+        response = await save(user);
+      } else {
+        response = await update(user);
+      }
 
-    dispatch({
-      type: user.id === 0 ? 'addUser' : 'updateUser',
-      payload: response.data,
-    });
-    Swal.fire(
-      user.id === 0 ? 'Usuario Creado!' : 'Usuario Actualizado',
-      user.id === 0
-        ? 'El usuarios ha sido creado!'
-        : 'El usuarios ha sido actualizado!',
-      'success'
-    );
-    handlerCloseForm();
-    navigate('/users');
+      dispatch({
+        type: user.id === 0 ? 'addUser' : 'updateUser',
+        payload: response.data,
+      });
+      Swal.fire(
+        user.id === 0 ? 'Usuario Creado!' : 'Usuario Actualizado',
+        user.id === 0
+          ? 'El usuarios ha sido creado!'
+          : 'El usuarios ha sido actualizado!',
+        'success'
+      );
+      handlerCloseForm();
+      navigate('/users');
+    } catch (error) {
+      if (error.response && error.response.status == 400) {
+        setErrors(error.response.data);
+      } else if (
+        error.response &&
+        error.response.status == 500 &&
+        error.response.data?.message?.includes('constraint')
+      ) {
+        if (error.response.data?.message?.includes('UK_username')) {
+          setErrors({ username: 'El username ya existe' });
+        }
+        if (error.response.data?.message?.includes('UK_email')) {
+          setErrors({ email: 'El email ya existe' });
+        }
+      } else {
+        throw error;
+      }
+    }
   };
 
   const handlerRemoveUser = (id) => {
@@ -88,6 +116,7 @@ export const useUsers = () => {
   const handlerCloseForm = () => {
     setVisibleForm(false);
     setUserSelected(initialUsersForm);
+    setErrors({});
   };
 
   return {
@@ -95,6 +124,7 @@ export const useUsers = () => {
     userSelected,
     initialUsersForm,
     visibleForm,
+    errors,
     handlerAddUser,
     handlerRemoveUser,
     handlerUserSelectedForm,

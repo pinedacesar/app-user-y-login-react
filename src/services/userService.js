@@ -19,9 +19,8 @@ export const save = async ({ username, email, password }) => {
       password,
     });
   } catch (error) {
-    console.error(error);
+    throw error;
   }
-  return undefined;
 };
 
 export const update = async ({ id, username, email }) => {
@@ -29,11 +28,11 @@ export const update = async ({ id, username, email }) => {
     return await axios.put(`${BASE_URL}/${id}`, {
       username,
       email,
+      // password: 'nothing', // si lo dejamos activo en el backend no lo corrige solo evita que en el front nos de el error
     });
   } catch (error) {
-    console.error(error);
+    throw error;
   }
-  return undefined;
 };
 
 export const remuve = async (id) => {
