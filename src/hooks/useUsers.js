@@ -1,8 +1,9 @@
-import { useReducer, useState } from 'react';
+import { useContext, useReducer, useState } from 'react';
 import { usersReducer } from '../reducer/usersReducer';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { findAll, remuve, save, update } from '../services/userService';
+import { AuthContext } from '../auth/context/AuthContext';
 
 const initialUsers = [];
 
@@ -23,6 +24,7 @@ export const useUsers = () => {
   const [users, dispatch] = useReducer(usersReducer, initialUsers);
   const [userSelected, setUserSelected] = useState(initialUsersForm);
   const [visibleForm, setVisibleForm] = useState(false);
+  const { login, handlerLogout } = useContext(AuthContext);
 
   const [errors, setErrors] = useState(initialErrors);
   const navigate = useNavigate();
@@ -36,6 +38,8 @@ export const useUsers = () => {
   };
 
   const handlerAddUser = async (user) => {
+    if (!login.isAdmin) return;
+
     let response;
     try {
       if (user.id === 0) {
@@ -71,6 +75,8 @@ export const useUsers = () => {
         if (error.response.data?.message?.includes('UK_email')) {
           setErrors({ email: 'El email ya existe' });
         }
+      } else if (error.response?.status == 401) {
+        handlerLogout();
       } else {
         throw error;
       }
@@ -78,6 +84,7 @@ export const useUsers = () => {
   };
 
   const handlerRemoveUser = (id) => {
+    if (!login.isAdmin) return;
     // console.log(id);
     Swal.fire({
       title: 'Esta seguro que desea eliminar?',
@@ -87,19 +94,25 @@ export const useUsers = () => {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, Eliminar!',
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        remuve(id);
-        console.log(id);
-        dispatch({
-          type: 'removeUser',
-          payload: id,
-        });
-        Swal.fire(
-          'Usuario Eliminado!',
-          'El usuarios ha sido Eliminado con exito!',
-          'success'
-        );
+        try {
+          await remuve(id);
+          // console.log(id);
+          dispatch({
+            type: 'removeUser',
+            payload: id,
+          });
+          Swal.fire(
+            'Usuario Eliminado!',
+            'El usuarios ha sido Eliminado con exito!',
+            'success'
+          );
+        } catch (error) {
+          if (error.response?.status == 401) {
+            handlerLogout();
+          }
+        }
       }
     });
   };

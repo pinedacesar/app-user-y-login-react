@@ -3,10 +3,13 @@ import { UsersList } from '../components/UsersList';
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 import { useEffect } from 'react';
+import { AuthContext } from '../auth/context/AuthContext';
 
 export const UsersPages = () => {
   const { users, visibleForm, handlerOpenForm, getUser } =
     useContext(UserContext);
+
+  const { login } = useContext(AuthContext);
 
   useEffect(() => {
     getUser();
@@ -19,9 +22,14 @@ export const UsersPages = () => {
         <h1>Users App</h1>
         <div className="row">
           <div className="col">
-            <button className="btn btn-primary my-2" onClick={handlerOpenForm}>
-              Nuevo Usuario
-            </button>
+            {visibleForm || !login.isAdmin || (
+              <button
+                className="btn btn-primary my-2"
+                onClick={handlerOpenForm}
+              >
+                Nuevo Usuario
+              </button>
+            )}
 
             {users.length === 0 ? (
               <div className="alert alert-warning">
