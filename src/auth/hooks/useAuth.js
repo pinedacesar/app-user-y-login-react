@@ -18,10 +18,10 @@ export const useAuth = () => {
     try {
       const response = await loginUser({ username, password });
       const token = response.data.token;
-      // console.log(token);
+      // console.log(response);
       const claims = JSON.parse(window.atob(token.split('.')[1]));
       // console.log(claims);
-      const user = { username: response.data.sub };
+      const user = { username: response.data.username };
       dispatch({
         type: 'login',
         payload: { user, isAdmin: claims.isAdmin },
