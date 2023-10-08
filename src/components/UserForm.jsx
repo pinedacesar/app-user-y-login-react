@@ -1,10 +1,9 @@
 import { PropTypes } from 'prop-types';
-import { useContext, useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
-import { UserContext } from '../context/UserContext';
+import { useEffect, useState } from 'react';
+import { useUsers } from '../hooks/useUsers';
 
 export const UserForm = ({ userSelected, handlerCloseForm }) => {
-  const { handlerAddUser, initialUsersForm, errors } = useContext(UserContext);
+  const { handlerAddUser, initialUsersForm, errors } = useUsers();
 
   const [userForm, setUserForm] = useState(initialUsersForm);
   const [checked, setChecked] = useState(userForm.admin);
